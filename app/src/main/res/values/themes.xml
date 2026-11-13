@@ -5,8 +5,18 @@
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSurface">@color/vs_panel</item>
         <item name="android:colorBackground">@color/vs_editor_bg</item>
-        <item name="android:statusBarColor">@color/vs_bar</item>
-        <item name="android:navigationBarColor">@color/vs_panel</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">false</item>
+        <!-- Bundled fonts: Inter for UI, JetBrains Mono set per-view for code -->
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="Theme.DartIDE.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/vs_editor_bg</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
+        <item name="windowSplashScreenAnimationDuration">400</item>
+        <item name="postSplashScreenTheme">@style/Theme.DartIDE</item>
     </style>
 </resources>

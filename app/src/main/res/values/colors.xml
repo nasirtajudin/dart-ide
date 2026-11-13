@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- VS Code Dark+ palette -->
     <color name="vs_editor_bg">#1E1E1E</color>
     <color name="vs_panel">#252526</color>
     <color name="vs_bar">#3C3C3C</color>
+    <color name="vs_border">#454545</color>
     <color name="vs_accent">#007ACC</color>
     <color name="vs_text">#D4D4D4</color>
+    <color name="vs_text_bright">#E7E7E7</color>
     <color name="vs_text_dim">#858585</color>
+    <color name="vs_warn">#CCA700</color>
+    <color name="vs_grey">#6E7681</color>
     <color name="ic_launcher_background">#007ACC</color>
 </resources>

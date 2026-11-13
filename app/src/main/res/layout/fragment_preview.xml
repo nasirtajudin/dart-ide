@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,7 +11,7 @@
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:src="@drawable/ic_nav_preview"
-        android:tint="@color/vs_text_dim"
+        app:tint="@color/vs_text_dim"
         android:alpha="0.6"
         android:contentDescription="@string/preview_empty_title" />
 
@@ -33,4 +34,41 @@
         android:text="@string/preview_empty_subtitle"
         android:textColor="@color/vs_text_dim"
         android:textSize="13sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_card"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_run"
+            app:tint="@color/vs_accent"
+            android:contentDescription="@string/run_label" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/preview_hint_card"
+            android:textColor="@color/vs_text"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:alpha="0.8"
+        android:text="@string/preview_engine_note"
+        android:textColor="@color/vs_text_dim"
+        android:textSize="11sp" />
 </LinearLayout>

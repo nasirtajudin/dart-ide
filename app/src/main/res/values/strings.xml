@@ -1,11 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Dart IDE</string>
+
+    <!-- Bottom navigation -->
     <string name="tab_code">Code</string>
     <string name="tab_preview">Preview</string>
     <string name="tab_settings">Settings</string>
-    <string name="code_placeholder">Editor lands in Phase 2.\n\nNative Dart SDK + real terminal land in Phase 3.</string>
+
+    <!-- Title bar -->
+    <string name="title_bar_title">Dart IDE</string>
+    <string name="run_label">RUN</string>
+
+    <!-- Code screen -->
+    <string name="editor_tab_main">main.dart</string>
+    <string name="tab_close_glyph">×</string>
+    <string name="tab_add_glyph">+</string>
+    <string name="editor_placeholder_title">main.dart will open here</string>
+    <string name="editor_placeholder_sub">Syntax highlighting, file tabs and the file tree land in Phase 2.</string>
+    <string name="console_label">OUTPUT</string>
+    <string name="console_waiting">· waiting to run</string>
+    <string name="console_toggle">Toggle console</string>
+    <string name="console_empty">Console output appears here when you run Dart code (Phase 3).</string>
+
+    <!-- Preview screen -->
     <string name="preview_empty_title">Nothing to preview yet</string>
     <string name="preview_empty_subtitle">Run a Flutter project and its UI will render here — fully offline.</string>
-    <string name="settings_placeholder">Settings land in Phase 1 polish.\n\nSDK status, theme, font size and network will live here.</string>
+    <string name="preview_hint_card">Tap RUN — your app\'s UI will appear in this tab</string>
+    <string name="preview_engine_note">Preview engine: dart2js + CanvasKit — compiled on-device.</string>
+
+    <!-- Settings screen -->
+    <string name="settings_section_toolchain">TOOLCHAIN</string>
+    <string name="settings_section_editor">EDITOR</string>
+    <string name="settings_section_project">PROJECT</string>
+    <string name="settings_section_about">ABOUT</string>
+    <string name="dot_glyph">●</string>
+    <string name="chevron_glyph">›</string>
+    <string name="row_dart_sdk_title">Dart SDK</string>
+    <string name="row_dart_sdk_sub">Not installed — bundled into the app on first launch</string>
+    <string name="row_web_sdk_title">Flutter Web SDK</string>
+    <string name="row_web_sdk_sub">dart2js + CanvasKit — embedded on first run</string>
+    <string name="row_terminal_title">Terminal</string>
+    <string name="row_terminal_sub">Real mksh sessions with dart on PATH (Phase 3)</string>
+    <string name="row_theme_title">Theme</string>
+    <string name="row_theme_value">Dark+ (default)</string>
+    <string name="row_font_title">Font size</string>
+    <string name="stepper_minus_glyph">-</string>
+    <string name="stepper_plus_glyph">+</string>
+    <string name="font_size_default">14 sp</string>
+    <string name="font_size_value">%1$d sp</string>
+    <string name="row_new_project_title">New project</string>
+    <string name="row_new_project_sub">Create from a template (Phase 2)</string>
+    <string name="row_templates_title">Starter templates</string>
+    <string name="row_templates_sub">Counter, to-do list, profile card (Phase 2)</string>
+    <string name="row_version_title">Version</string>
+    <string name="row_version_value">0.2.0</string>
+    <string name="row_about_title">Dart IDE</string>
+    <string name="row_about_sub">Dart &amp; Flutter playground for Android — offline-first</string>
+
+    <!-- Toasts -->
+    <string name="toast_run_phase3">Run lands in Phase 3 — Dart VM + console output</string>
+    <string name="toast_coming_soon">Coming soon</string>
+    <string name="toast_phase2">Projects land in Phase 2</string>
+    <string name="toast_phase6">Light theme lands in Phase 6</string>
 </resources>
