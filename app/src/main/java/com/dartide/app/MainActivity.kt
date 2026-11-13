@@ -15,6 +15,7 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.dartide.app.editor.RunBridge
 import com.dartide.app.ui.CodeFragment
 import com.dartide.app.ui.PreviewFragment
 import com.dartide.app.ui.SettingsFragment
@@ -91,9 +92,9 @@ class MainActivity : AppCompatActivity() {
         }
         select(0)
 
-        // Title bar actions — real behavior lands with the Dart runtime (Phase 3).
+        // Title bar actions — RUN executes the active file on the on-device Dart VM.
         findViewById<View>(R.id.run_button).setOnClickListener {
-            Toast.makeText(this, getString(R.string.toast_run_phase3), Toast.LENGTH_SHORT).show()
+            RunBridge.onRun?.invoke()
         }
         findViewById<View>(R.id.kebab_button).setOnClickListener {
             Toast.makeText(this, getString(R.string.toast_coming_soon), Toast.LENGTH_SHORT).show()

@@ -36,7 +36,7 @@
     <string name="dot_glyph">●</string>
     <string name="chevron_glyph">›</string>
     <string name="row_dart_sdk_title">Dart SDK</string>
-    <string name="row_dart_sdk_sub">Not installed — bundled into the app on first launch</string>
+    <string name="row_dart_sdk_sub">Dart 3.14 VM — bundled, extracted on first run</string>
     <string name="row_web_sdk_title">Flutter Web SDK</string>
     <string name="row_web_sdk_sub">dart2js + CanvasKit — embedded on first run</string>
     <string name="row_terminal_title">Terminal</string>
@@ -53,7 +53,7 @@
     <string name="row_templates_title">Starter templates</string>
     <string name="row_templates_sub">Counter, to-do list, profile card (Phase 2)</string>
     <string name="row_version_title">Version</string>
-    <string name="row_version_value">0.2.0</string>
+    <string name="row_version_value">0.4.0</string>
     <string name="row_about_title">Dart IDE</string>
     <string name="row_about_sub">Dart &amp; Flutter playground for Android — offline-first</string>
 

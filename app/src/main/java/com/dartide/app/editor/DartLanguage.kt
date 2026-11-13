@@ -16,7 +16,6 @@ import io.github.rosemoe.sora.lang.styling.TextStyle
 import io.github.rosemoe.sora.text.CharPosition
 import io.github.rosemoe.sora.text.Content
 import io.github.rosemoe.sora.text.ContentReference
-import io.github.rosemoe.sora.text.TextUtils
 import io.github.rosemoe.sora.widget.SymbolPairMatch
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 
@@ -237,11 +236,12 @@ class DartBraceHandler : NewlineHandler {
     ): NewlineHandleResult {
         val line = text.getLine(position.line)
         val before = line.subSequence(0, position.column).toString()
-        val indent = TextUtils.countLeadingSpaceCount(before, tabSize)
-        val inner = TextUtils.createIndent(indent + 1, tabSize, false)
-        val outer = TextUtils.createIndent(indent, tabSize, false)
+        // sora 0.23.x has no public TextUtils — do the indent math here.
+        val units = before.takeWhile { it == ' ' }.length / tabSize.coerceAtLeast(1)
+        val inner = " ".repeat((units + 1) * tabSize)
+        val outer = " ".repeat(units * tabSize)
         val inserted = StringBuilder("\n").append(inner).append('\n').append(outer)
-        return NewlineHandleResult(inserted, outer.length + 1)
+        return NewlineHandleResult(inserted, inner.length + 1)
     }
 }
 

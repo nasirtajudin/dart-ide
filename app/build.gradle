@@ -13,8 +13,8 @@ android {
         // targetSdk 28 keeps exec() of app-private binaries allowed (needed
         // from Phase 3 for the on-device Dart VM on Android 10+)
         targetSdk 28
-        versionCode 3
-        versionName "0.3.0"
+        versionCode 4
+        versionName "0.4.0"
     }
 
     buildTypes {

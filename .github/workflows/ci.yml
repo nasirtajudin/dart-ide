@@ -31,6 +31,46 @@ jobs:
           cp $D/inter/extras/ttf/Inter-SemiBold.ttf  $FONTDIR/inter_semibold.ttf
           cp $D/jbmono/fonts/ttf/JetBrainsMono-Regular.ttf $FONTDIR/jetbrains_mono_regular.ttf
 
+      - name: Fetch on-device Dart runtime (Termux repack)
+        run: |
+          W=$RUNNER_TEMP/dartrt
+          mkdir -p $W/root && cd $W
+          curl -fSL --retry 3 -o Packages https://packages.termux.dev/apt/termux-main/dists/stable/main/binary-aarch64/Packages
+          DEB=$(grep -A20 '^Package: dart$' Packages | sed -n 's/^Filename: //p' | head -1)
+          [ -n "$DEB" ] || { echo "dart package not found in index"; exit 1; }
+          echo "termux dart package: $DEB"
+          curl -fSL --retry 3 -o dart.deb "https://packages.termux.dev/apt/termux-main/${DEB}"
+          dpkg-deb -x dart.deb root/
+          STAGE=$W/stage
+          mkdir -p $STAGE
+          cp -a root/data/data/com.termux/files/usr/lib/dart-sdk $STAGE/dart-sdk
+          cd $STAGE/dart-sdk
+          # trim to what `dart run` needs (~400 MB -> ~120 MB extracted, ~33 MB zip)
+          rm -f bin/*.sym
+          rm -rf bin/resources/devtools
+          rm -f bin/utils/wasm-opt bin/utils/*.sym
+          find bin/snapshots -type f ! -name 'dartdev_aot.dart.snapshot' -delete
+          rm -rf include
+          rm -rf lib/_internal/js_dev_runtime lib/_internal/js_runtime lib/_internal/js_shared lib/_internal/wasm
+          rm -f lib/_internal/dart2js_platform.dill lib/_internal/dart2js_server_platform.dill
+          rm -f lib/_internal/dart2wasm_*.dill lib/_internal/ddc_*.dill lib/_internal/vm_platform_product.dill
+          cd $STAGE
+          # symlinks cannot survive java.util.zip extraction on-device — store
+          # a manifest (targets relative to the dart-sdk root), ship no links
+          find dart-sdk -type l | while read -r l; do
+            t=$(readlink "$l")
+            case "$t" in
+              /data/data/com.termux/files/usr/lib/dart-sdk/*) t="${t#/data/data/com.termux/files/usr/lib/dart-sdk/}" ;;
+            esac
+            printf '%s\t%s\n' "$l" "$t"
+          done > symlinks.txt
+          find . -type l -delete
+          zip -qry $W/dartrt.zip .
+          cd $GITHUB_WORKSPACE
+          mkdir -p app/src/main/assets
+          cp $W/dartrt.zip app/src/main/assets/dartrt.zip
+          du -sh app/src/main/assets/dartrt.zip
+
       - name: Bootstrap Gradle wrapper
         run: gradle wrapper --gradle-version 8.7 --distribution-type bin
 

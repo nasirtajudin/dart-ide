@@ -74,6 +74,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/console_status"
                 android:layout_marginStart="8dp"
                 android:text="@string/console_waiting"
                 android:textColor="@color/vs_text_dim"
@@ -103,6 +104,7 @@
             android:visibility="gone">
 
             <ScrollView
+                android:id="@+id/console_scroll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fillViewport="true">

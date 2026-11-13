@@ -1,17 +1,22 @@
 package com.dartide.app.ui
 
-import android.view.Gravity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.dartide.app.R
 import com.dartide.app.editor.DartLanguage
+import com.dartide.app.editor.DartRuntime
 import com.dartide.app.editor.ProjectStore
+import com.dartide.app.editor.RunBridge
 import io.github.rosemoe.sora.widget.CodeEditor
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 import java.io.File
@@ -20,17 +25,25 @@ class CodeFragment : Fragment(R.layout.fragment_code) {
 
     private lateinit var editor: CodeEditor
     private lateinit var tabsRow: LinearLayout
+    private lateinit var consoleBody: LinearLayout
+    private lateinit var chevron: ImageView
+    private lateinit var consoleText: TextView
+    private lateinit var consoleStatus: TextView
+    private lateinit var consoleScroll: ScrollView
+    private val mainHandler = Handler(Looper.getMainLooper())
     private var currentFile: File? = null
     private var consoleOpen = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Collapsible console drawer (unchanged from Phase 1)
-        val body = view.findViewById<LinearLayout>(R.id.console_body)
-        val chevron = view.findViewById<ImageView>(R.id.console_chevron)
-        val header = view.findViewById<View>(R.id.console_header)
-        header.setOnClickListener {
+        consoleBody = view.findViewById(R.id.console_body)
+        chevron = view.findViewById(R.id.console_chevron)
+        consoleText = view.findViewById(R.id.console_text)
+        consoleStatus = view.findViewById(R.id.console_status)
+        consoleScroll = view.findViewById(R.id.console_scroll)
+        view.findViewById<View>(R.id.console_header).setOnClickListener {
             consoleOpen = !consoleOpen
-            body.visibility = if (consoleOpen) View.VISIBLE else View.GONE
+            consoleBody.visibility = if (consoleOpen) View.VISIBLE else View.GONE
             chevron.animate()
                 .rotation(if (consoleOpen) 180f else 0f)
                 .setDuration(150)
@@ -57,13 +70,71 @@ class CodeFragment : Fragment(R.layout.fragment_code) {
         tabsRow = view.findViewById(R.id.editor_tabs)
         openTab(ProjectStore.activeIndex.coerceAtLeast(0))
 
-        view.findViewById<TextView>(R.id.console_text).text =
+        // Phase 3: the title-bar RUN pill executes the active file on-device
+        RunBridge.onRun = { runCurrent() }
+
+        consoleText.text =
             "editor ready — ${ProjectStore.files.size} dart file(s) in lib/"
+    }
+
+    override fun onDestroyView() {
+        RunBridge.onRun = null
+        super.onDestroyView()
     }
 
     override fun onPause() {
         saveCurrent()
         super.onPause()
+    }
+
+    // ---- Phase 3: on-device Dart execution ----
+
+    private fun runCurrent() {
+        val file = currentFile ?: return
+        saveCurrent()
+        openConsole()
+        consoleText.text = ""
+        appendConsole("--- run ${file.name} ---")
+        consoleStatus.text = "starting..."
+        DartRuntime.kill()
+
+        val ctx = requireContext().applicationContext
+        val projectRoot = ProjectStore.projectDir.parentFile ?: return
+        Thread {
+            val err = DartRuntime.ensure(ctx)
+            if (err != null) {
+                appendConsole(err)
+                setStatus("runtime error")
+                return@Thread
+            }
+            setStatus("running...")
+            val t0 = System.currentTimeMillis()
+            val code = DartRuntime.run(ctx, projectRoot, file) { line -> appendConsole(line) }
+            val ms = System.currentTimeMillis() - t0
+            appendConsole("")
+            appendConsole("exit $code in ${ms}ms")
+            setStatus(if (code == 0) "finished" else "exit $code")
+        }.start()
+    }
+
+    private fun openConsole() {
+        if (!consoleOpen) {
+            consoleOpen = true
+            consoleBody.visibility = View.VISIBLE
+            chevron.animate().rotation(180f).setDuration(150).start()
+        }
+    }
+
+    private fun setStatus(s: String) {
+        mainHandler.post { consoleStatus.text = s }
+    }
+
+    private fun appendConsole(line: String) {
+        mainHandler.post {
+            consoleText.append(line)
+            consoleText.append("\n")
+            consoleScroll.post { consoleScroll.fullScroll(View.FOCUS_DOWN) }
+        }
     }
 
     private fun saveCurrent() {

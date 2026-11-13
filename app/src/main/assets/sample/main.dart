@@ -1,6 +1,6 @@
 // Dart IDE sample project — lib/main.dart
 // Everything here runs fully offline on your device.
-// (Run lands in Phase 3 — for now, enjoy the highlighting.)
+// (Tap RUN above — this executes on the Dart VM inside your phone.)
 
 class Greeter {
   final String name;
