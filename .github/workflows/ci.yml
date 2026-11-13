@@ -1,14 +1,22 @@
 name: CI
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
+          cache: gradle
+
       - name: Fetch fonts (build-time only, never on device)
         run: |
           D=$RUNNER_TEMP
@@ -22,11 +30,15 @@ jobs:
           cp $D/inter/extras/ttf/Inter-Medium.ttf    $FONTDIR/inter_medium.ttf
           cp $D/inter/extras/ttf/Inter-SemiBold.ttf  $FONTDIR/inter_semibold.ttf
           cp $D/jbmono/fonts/ttf/JetBrainsMono-Regular.ttf $FONTDIR/jetbrains_mono_regular.ttf
+
+      - name: Bootstrap Gradle wrapper
+        run: gradle wrapper --gradle-version 8.7 --distribution-type bin
+
       - name: Build debug APK
-        run: |
-          chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon
-      - uses: actions/upload-artifact@v4
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
           name: DartIDE-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
