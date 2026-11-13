@@ -7,19 +7,25 @@
   <style>html,body{margin:0;padding:0;background:#1E1E1E;}</style>
 </head>
 <body>
+  <!--
+    DartIDE on-device preview bootstrap template.
+    Mirrors what `flutter build web` generates in flutter_bootstrap.js:
+    1) flutter.js must be loaded first
+    2) the _flutter.buildConfig global must be set BEFORE _flutter.loader.load()
+       (since Flutter 3.24 load() throws if buildConfig is missing)
+    3) load({onEntrypointLoaded}) -> initializeEngine() -> runApp()
+    __FLUTTER_BUILD_CONFIG__ is replaced at build time by make-index.py with the
+    exact buildConfig JSON extracted from the reference flutter_bootstrap.js.
+    No service worker: previews are served from localhost in-app.
+  -->
   <script src="flutter.js"></script>
   <script>
-    window.addEventListener('load', function () {
-      _flutter.loader.load({
-        config: {
-          canvasKitBaseUrl: 'canvaskit/',
-          buildConfig: {
-            compileTarget: 'dart2js',
-            renderer: 'canvaskit',
-            mainJsPath: 'main.dart.js'
-          }
-        }
-      });
+    _flutter.buildConfig = __FLUTTER_BUILD_CONFIG__;
+    _flutter.loader.load({
+      onEntrypointLoaded: async function (engineInitializer) {
+        const appRunner = await engineInitializer.initializeEngine();
+        await appRunner.runApp();
+      }
     });
   </script>
 </body>
