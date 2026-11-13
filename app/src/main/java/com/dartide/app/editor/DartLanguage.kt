@@ -16,7 +16,7 @@ import io.github.rosemoe.sora.lang.styling.TextStyle
 import io.github.rosemoe.sora.text.CharPosition
 import io.github.rosemoe.sora.text.Content
 import io.github.rosemoe.sora.text.ContentReference
-import io.github.rosemoe.sora.util.TextUtils
+import io.github.rosemoe.sora.text.TextUtils
 import io.github.rosemoe.sora.widget.SymbolPairMatch
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 

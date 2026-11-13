@@ -50,7 +50,7 @@ class CodeFragment : Fragment(R.layout.fragment_code) {
         editor.setLineNumberEnabled(true)
         editor.isWordwrap = false
         applyDarkPlusScheme()
-        editor.setLanguage(DartLanguage())
+        editor.setEditorLanguage(DartLanguage())
         view.findViewById<FrameLayout>(R.id.editor_container).addView(editor)
 
         ProjectStore.ensureProject(requireContext())
