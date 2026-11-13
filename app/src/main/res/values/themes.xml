@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.DartIDE" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/vs_accent</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSurface">@color/vs_panel</item>
+        <item name="android:colorBackground">@color/vs_editor_bg</item>
+        <item name="android:statusBarColor">@color/vs_bar</item>
+        <item name="android:navigationBarColor">@color/vs_panel</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

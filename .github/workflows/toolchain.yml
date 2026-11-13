@@ -1,0 +1,43 @@
+name: Toolchain
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'toolchain/**'
+      - '.github/workflows/toolchain.yml'
+
+jobs:
+  spike:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/lib/android /usr/local/share/chromium 2>/dev/null || true
+          df -h
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install playwright
+        working-directory: toolchain
+        run: |
+          npm init -y
+          npm install playwright
+          npx playwright install --with-deps chromium
+
+      - name: Web SDK + dart2js pipeline smoke test
+        run: bash toolchain/fetch-flutter-web.sh
+
+      - name: Build Dart SDK for Android (arm64, bionic)
+        run: bash toolchain/fetch-dart.sh
+
+      - name: Upload toolchain artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dartide-toolchain
+          path: toolchain/out/

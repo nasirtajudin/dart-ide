@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dart IDE</string>
+    <string name="tab_code">Code</string>
+    <string name="tab_preview">Preview</string>
+    <string name="tab_settings">Settings</string>
+    <string name="code_placeholder">Editor lands in Phase 2.\n\nNative Dart SDK + real terminal land in Phase 3.</string>
+    <string name="preview_empty_title">Nothing to preview yet</string>
+    <string name="preview_empty_subtitle">Run a Flutter project and its UI will render here — fully offline.</string>
+    <string name="settings_placeholder">Settings land in Phase 1 polish.\n\nSDK status, theme, font size and network will live here.</string>
+</resources>
