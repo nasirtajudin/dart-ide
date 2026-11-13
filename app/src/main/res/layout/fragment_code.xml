@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="@color/vs_editor_bg">
 
-    <!-- Editor tab strip -->
+    <!-- Editor tab strip (tabs are built by CodeFragment) -->
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="36dp"
@@ -15,53 +15,10 @@
         android:fillViewport="true">
 
         <LinearLayout
+            android:id="@+id/editor_tabs"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <!-- active tab: editor background + accent top border -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="@drawable/bg_tab_active"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp">
-
-                <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:src="@drawable/ic_nav_code"
-                    app:tint="@color/vs_text_dim"
-                    android:contentDescription="@string/editor_tab_main" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:text="@string/editor_tab_main"
-                    android:textColor="@color/vs_text_bright"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/tab_close_glyph"
-                    android:textColor="@color/vs_text_dim"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <!-- new tab -->
-            <TextView
-                android:layout_width="36dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/tab_add_glyph"
-                android:textColor="@color/vs_text_dim"
-                android:textSize="16sp" />
-        </LinearLayout>
+            android:orientation="horizontal" />
     </HorizontalScrollView>
 
     <View
@@ -69,47 +26,12 @@
         android:layout_height="1dp"
         android:background="@color/vs_bar" />
 
-    <!-- Editor surface (real editor lands in Phase 2) -->
+    <!-- Editor surface: sora CodeEditor is added here by CodeFragment -->
     <FrameLayout
+        android:id="@+id/editor_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="32dp">
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_nav_code"
-                app:tint="@color/vs_text_dim"
-                android:alpha="0.45"
-                android:contentDescription="@string/editor_placeholder_title" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/editor_placeholder_title"
-                android:textColor="@color/vs_text"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:gravity="center"
-                android:text="@string/editor_placeholder_sub"
-                android:textColor="@color/vs_text_dim"
-                android:textSize="12sp" />
-        </LinearLayout>
-    </FrameLayout>
+        android:layout_weight="1" />
 
     <!-- Collapsible console drawer -->
     <LinearLayout
